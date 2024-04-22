@@ -1,0 +1,22 @@
+# deploy.yml
+
+- name: Deploy LAMP Stack on Slave Node
+  hosts: slave
+  tasks:
+    - name: Transfer deployment script to slave node
+      copy:
+        src: /path/to/deploy.sh
+        dest: /tmp/deploy.sh
+
+    - name: Execute deployment script on slave node
+      shell: /bin/bash /tmp/deploy.sh
+
+- name: Schedule Uptime Monitoring
+  hosts: slave
+  tasks:
+    - name: Add cron job for uptime monitoring
+      cron:
+        name: "Check server uptime"
+        minute: 0
+        hour: 0
+        job: "/usr/bin/uptime >> /var/log/server_uptime.log"
